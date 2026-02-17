@@ -1,0 +1,45 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+
+// 1. Generar rutas estáticas para cada asignatura
+export async function getStaticPaths() {
+  const asignaturas = await getCollection('asignaturas');
+  return asignaturas.map(entry => ({
+    params: { slug: entry.slug },
+    props: { asignatura: entry },
+  }));
+}
+
+const { asignatura } = Astro.props;
+
+// 2. Buscar SOLO los recursos que pertenecen a esta asignatura
+const todasLasTareas = await getCollection('tareas');
+const tareasAsignatura = todasLasTareas.filter(r => r.data.asignatura === asignatura.slug);
+---
+
+<Layout title={asignatura.data.titulo}>
+    <h1>{todasLasTareas}</h1>
+  <main class="container mx-auto p-4">
+    <div class="mb-8">
+        <a href="/" class="text-blue-500 hover:underline">← Volver al inicio</a>
+        <h1 class="text-3xl font-bold mt-2">{asignatura.data.titulo}</h1>
+    </div>
+
+    <h2 class="text-xl font-semibold mb-4">Recursos y Tareas</h2>
+    
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      {tareasAsignatura.map((tarea) => (
+        <a href={`/tareas/${tarea.slug}`} class="border rounded overflow-hidden hover:shadow-xl transition">
+          <div class="h-48 overflow-hidden">
+          </div>
+          <div class="p-4">
+            <h3 class="font-bold text-lg">{tarea.data.titulo}</h3>
+            <span class="text-xs bg-gray-200 px-2 py-1 rounded">{tarea.data.tecnica}</span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </main>
+</Layout>
