@@ -1,0 +1,74 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+
+export async function getStaticPaths() {
+  const todosLasTareas = await getCollection('tareas');
+
+  // 1. Extraemos todas las etiquetas únicas de todos los recursos
+  const etiquetasUnicas = [...new Set(todosLasTareas.flatMap((tarea) => tarea.data.etiquetas || []))];
+
+  // 2. Creamos una ruta por cada etiqueta
+  return etiquetasUnicas.map((tag) => {
+    // 3. Filtramos los recursos que contienen esa etiqueta específica
+    const tareasFiltradas = todosLasTareas.filter((tarea) => 
+      tarea.data.etiquetas?.includes(tag)
+    );
+    return {
+      params: { tag: tag.toLowerCase() }, // La URL en minúsculas (ej: /etiquetas/color)
+      props: { tag, tareas: tareasFiltradas },
+    };
+  });
+}
+
+const { tag } = Astro.params;
+const { tareas } = Astro.props;
+---
+
+<Layout title={`Recursos etiquetados con: ${tag}`}>
+  <main class="container mx-auto p-4 py-12 max-w-6xl">
+    
+    <div class="mb-10 text-center">
+      <p class="text-gray-500 uppercase tracking-widest text-sm font-bold mb-2">Explorando etiqueta</p>
+      <h1 class="text-4xl md:text-5xl font-bold text-indigo-700">#{tag}</h1>
+      <p class="mt-4 text-gray-600">Mostrando {tareas.length} tarea(s) encontrado(s)</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {tareas.map((tarea) => (
+        <article class="flex flex-col h-full bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition border border-gray-100">
+          <a href={`/tareas/${tarea.slug}`} class="aspect-video overflow-hidden bg-gray-200 block">
+             <Image 
+              src={tarea.data.imagenPortada} 
+              alt={tarea.data.titulo} 
+              class="w-full h-full object-cover hover:scale-105 transition duration-500"
+              width={600}
+              height={400}
+            />
+          </a>
+          <div class="p-6 flex flex-col flex-grow">
+            <h3 class="text-xl font-bold text-gray-900 mb-2 leading-tight">
+              <a href={`/recursos/${tarea.slug}`} class="hover:text-indigo-600 transition">
+                {tarea.data.titulo}
+              </a>
+            </h3>
+            
+            <div class="mt-4 flex flex-wrap gap-2">
+              {tarea.data.etiquetas.map((etiqueta) => (
+                <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-md">
+                  #{etiqueta}
+                </span>
+              ))}
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <div class="mt-12 text-center">
+      <a href="/" class="text-indigo-600 hover:text-indigo-800 font-medium">← Volver al inicio</a>
+    </div>
+
+  </main>
+</Layout>

@@ -3,8 +3,9 @@ titulo: "El Círculo Cromático de 12 colores"
 asignatura: "epav-i"
 fecha: 2024-02-14
 tecnica: "Témperas / Gouache"
+etiquetas: ["Color", "Pintura", "Secundaria", "Teoría"]
 imagenPortada: "../../assets/circulo-cromatico/img-01.jpg"
-ejemplosAlumnos:
+ejemplosAlumnos: 
   - "../../assets/circulo-cromatico/img-01.jpg"
   - "../../assets/circulo-cromatico/img-02.jpg"
 ---
