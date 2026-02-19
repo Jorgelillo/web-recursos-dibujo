@@ -1,0 +1,94 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Sobre mí">
+  <section class="bg-indigo-50 py-12 md:py-20">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-12">
+        
+        <div class="w-full md:w-1/3 flex justify-center">
+          <div class="relative">
+            <div class="absolute inset-0 bg-indigo-200 rounded-2xl rotate-6 transform translate-y-2 translate-x-2"></div>
+            
+            <img 
+              src="/perfil.png" 
+              alt="Foto de perfil" 
+              class="relative rounded-2xl shadow-lg w-64 h-64 object-cover border-4 border-white"
+              onerror="this.src='https://ui-avatars.com/api/?name=Profe+Dibujo&background=4f46e5&color=fff&size=256'"
+            />
+          </div>
+        </div>
+
+        <div class="w-full md:w-2/3 text-center md:text-left">
+          <h1 class="text-4xl font-bold text-gray-900 mb-4">
+            Hola, soy <span class="text-indigo-600">Jorge</span> 👋
+          </h1>
+          <p class="text-xl text-gray-600 mb-6 leading-relaxed">
+            Docente de Artes Plásticas y Diseño en Educación Secundaria. Apasionado por la creatividad, el dibujo técnico y las nuevas metodologías visuales.
+          </p>
+          <div class="flex flex-wrap gap-3 justify-center md:justify-start">
+            <span class="px-4 py-2 bg-white border border-gray-200 rounded-full text-sm font-medium text-gray-600">🖌️ Educación Artística</span>
+            <span class="px-4 py-2 bg-white border border-gray-200 rounded-full text-sm font-medium text-gray-600">📐 Dibujo Técnico</span>
+            <span class="px-4 py-2 bg-white border border-gray-200 rounded-full text-sm font-medium text-gray-600">🎓 Secundaria</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 bg-white">
+    <div class="container mx-auto px-4 max-w-4xl">
+      <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">¿Por qué esta web?</h2>
+      
+      <div class="grid md:grid-cols-2 gap-8">
+        <div class="bg-gray-50 p-6 rounded-xl border border-gray-100">
+          <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center text-2xl mb-4">
+            🚀
+          </div>
+          <h3 class="text-xl font-bold mb-2">Compartir es crecer</h3>
+          <p class="text-gray-600">
+            Creo firmemente en la educación pública y abierta. Todos los recursos que encuentres aquí son fruto de años de experiencia en el aula y están disponibles para que los adaptes a tus necesidades.
+          </p>
+        </div>
+
+        <div class="bg-gray-50 p-6 rounded-xl border border-gray-100">
+          <div class="w-12 h-12 bg-purple-100 text-purple-600 rounded-lg flex items-center justify-center text-2xl mb-4">
+            🎨
+          </div>
+          <h3 class="text-xl font-bold mb-2">Poner en valor el Arte</h3>
+          <p class="text-gray-600">
+            Esta web también sirve de escaparate para el increíble trabajo que realizan mis alumnos cada curso. Es una forma de motivarles y mostrar la importancia de la educación artística.
+          </p>
+        </div>
+      </div>
+
+      <div class="mt-12 prose prose-lg text-gray-600 mx-auto">
+        <h3 class="text-2xl font-bold text-gray-800 mb-4">Mi Trayectoria</h3>
+        <p class="mb-4">
+          Llevo más de [X] años dedicándome a la docencia. Comencé mi andadura en... (Aquí puedes contar un poco tu historia: dónde estudiaste Bellas Artes o Arquitectura, tus primeros años de profesor, etc.).
+        </p>
+        <p>
+          En mis clases intento mezclar las técnicas tradicionales con las nuevas tecnologías, fomentando siempre el pensamiento crítico a través de la imagen.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="bg-indigo-900 text-white py-16">
+    <div class="container mx-auto px-4 text-center max-w-2xl">
+      <h2 class="text-3xl font-bold mb-4">¿Hablamos?</h2>
+      <p class="text-indigo-200 mb-8 text-lg">
+        Si tienes alguna duda sobre los materiales, encuentras algún error o simplemente quieres saludar, estaré encantado de leerte.
+      </p>
+      <a 
+        href="mailto:tuemail@ejemplo.com" 
+        class="inline-flex items-center gap-2 bg-white text-indigo-900 px-8 py-3 rounded-full font-bold hover:bg-indigo-50 transition transform hover:scale-105"
+      >
+        ✉️ Envíame un correo
+      </a>
+    </div>
+  </section>
+</Layout>
