@@ -81,14 +81,13 @@ const ultimasTareas = allTareas
         {ultimasTareas.map((tarea) => (
           <article class="flex flex-col h-full bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition border border-gray-100">
             <a href={`/tareas/${tarea.slug}`} class="aspect-video overflow-hidden bg-gray-200 block">
-           <!--    <Image> 
+           <Image
               src={tarea.data.imagenPortada}
                 alt={tarea.data.titulo} 
                 class="w-full h-full object-cover hover:scale-105 transition duration-500"
                 width={600}
                 height={400}
               /> 
-              -->
             </a>
             <div class="p-6 flex flex-col flex-grow">
               <div class="flex items-center gap-2 mb-3">

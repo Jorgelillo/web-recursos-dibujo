@@ -19,6 +19,7 @@ const tareasCollection = defineCollection({
     asignatura: z.string(), // Debe coincidir con el slug de la asignatura (ej: 'plastica-i')
     fecha: z.date(),
     tecnica: z.string().optional(), // Ej: "Acuarela", "Grafito"
+    imagenPortada: image(), // Astro optimizará esta imagen automáticamente
     ejemplosAlumnos: z.array(image()).optional(), // Array de imágenes de trabajos finales
   }),
 });

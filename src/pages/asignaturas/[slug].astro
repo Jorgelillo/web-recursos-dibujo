@@ -15,12 +15,11 @@ export async function getStaticPaths() {
 const { asignatura } = Astro.props;
 
 // 2. Buscar SOLO los recursos que pertenecen a esta asignatura
-const todasLasTareas = await getCollection('tareas');
-const tareasAsignatura = todasLasTareas.filter(r => r.data.asignatura === asignatura.slug);
+const todosLasTareas = await getCollection('tareas');
+const tareasAsignatura = todosLasTareas.filter(r => r.data.asignatura === asignatura.slug);
 ---
 
 <Layout title={asignatura.data.titulo}>
-    <h1>{todasLasTareas}</h1>
   <main class="container mx-auto p-4">
     <div class="mb-8">
         <a href="/" class="text-blue-500 hover:underline">← Volver al inicio</a>
@@ -33,6 +32,7 @@ const tareasAsignatura = todasLasTareas.filter(r => r.data.asignatura === asigna
       {tareasAsignatura.map((tarea) => (
         <a href={`/tareas/${tarea.slug}`} class="border rounded overflow-hidden hover:shadow-xl transition">
           <div class="h-48 overflow-hidden">
+             <Image src={tarea.data.imagenPortada} alt={tarea.data.titulo} class="object-cover w-full h-full" />
           </div>
           <div class="p-4">
             <h3 class="font-bold text-lg">{tarea.data.titulo}</h3>
