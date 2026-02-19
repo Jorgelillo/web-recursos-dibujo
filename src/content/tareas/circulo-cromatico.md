@@ -4,6 +4,7 @@ asignatura: "epav-i"
 fecha: 2024-02-14
 tecnica: "Témperas / Gouache"
 etiquetas: ["Color", "Pintura", "Secundaria", "Teoría"]
+pdfAdjunto: "../fichas/pdf-prueba.pdf"
 imagenPortada: "../../assets/circulo-cromatico/img-01.jpg"
 ejemplosAlumnos: 
   - "../../assets/circulo-cromatico/img-01.jpg"

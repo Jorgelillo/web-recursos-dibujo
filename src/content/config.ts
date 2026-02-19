@@ -20,6 +20,7 @@ const tareasCollection = defineCollection({
     fecha: z.date(),
     tecnica: z.string().optional(), // Ej: "Acuarela", "Grafito"
     etiquetas: z.array(z.string()).default([]),
+    pdfAdjunto: z.string().optional(),
     imagenPortada: image(), // Astro optimizará esta imagen automáticamente
     ejemplosAlumnos: z.array(image()).optional(), // Array de imágenes de trabajos finales
   }),
