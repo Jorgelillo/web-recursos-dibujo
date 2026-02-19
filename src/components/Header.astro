@@ -43,6 +43,12 @@ asignaturas.sort((a, b) => a.data.titulo.localeCompare(b.data.titulo));
           </div>
         </div>
       </div>
+        <a href="/buscar" class="text-sm font-medium text-gray-600 hover:text-indigo-600 transition flex items-center gap-1">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+        Buscar
+      </a>
 
       <a href="/sobre-mi" class="text-sm font-medium text-gray-600 hover:text-indigo-600 transition">Sobre mí</a>
     </div>
@@ -57,6 +63,7 @@ asignaturas.sort((a, b) => a.data.titulo.localeCompare(b.data.titulo));
   <div id="mobile-menu" class="hidden md:hidden border-t border-gray-100 bg-gray-50">
     <div class="container mx-auto px-4 py-4 flex flex-col gap-2">
       <a href="/" class="block px-4 py-2 rounded-lg hover:bg-white font-medium text-gray-700">Inicio</a>
+      <a href="/buscar" class="block px-4 py-2 rounded-lg hover:bg-white font-medium text-gray-700">🔍 Buscar tareas</a>
       
       <div class="px-4 py-2">
         <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Asignaturas</p>

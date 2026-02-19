@@ -1,0 +1,115 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+
+// Obtenemos todos los tareas disponibles
+const todosLostareas = await getCollection('tareas');
+---
+
+<Layout title="Buscador de Tareas">
+  <main class="container mx-auto p-4 py-12 max-w-6xl min-h-screen">
+    
+    <div class="max-w-2xl mx-auto text-center mb-12">
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Encuentra tu tarea</h1>
+      <p class="text-gray-600 mb-8">Busca por técnica, tema, palabra clave o título de la lámina.</p>
+      
+      <div class="relative">
+        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+          <svg class="h-6 w-6 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </div>
+        <input 
+          type="text" 
+          id="buscador" 
+          autocomplete="off"
+          placeholder="Ej: Acuarela, perspectiva, color..." 
+          class="w-full pl-12 pr-4 py-4 rounded-2xl border-2 border-gray-200 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 text-lg transition-all outline-none"
+        />
+      </div>
+    </div>
+
+    <div id="mensaje-vacio" class="hidden text-center py-12">
+        <p class="text-2xl text-gray-400 font-medium">No he encontrado ninguna tarea con esos datos 🎨</p>
+        <p class="text-gray-500 mt-2">Prueba con otras palabras clave.</p>
+    </div>
+
+    <div id="rejilla-resultados" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {todosLostareas.map((tarea) => (
+        <article 
+          class="tarjeta-tarea flex flex-col h-full bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition border border-gray-100"
+          data-titulo={tarea.data.titulo.toLowerCase()}
+          data-etiquetas={tarea.data.etiquetas?.join(' ').toLowerCase()}
+        >
+          <a href={`/tareas/${tarea.slug}`} class="aspect-video overflow-hidden bg-gray-200 block">
+             <Image 
+              src={tarea.data.imagenPortada} 
+              alt={tarea.data.titulo} 
+              class="w-full h-full object-cover hover:scale-105 transition duration-500"
+              width={600}
+              height={400}
+            />
+          </a>
+          <div class="p-6 flex flex-col flex-grow">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="text-xs font-bold text-pink-600 bg-pink-50 px-2 py-1 rounded uppercase tracking-wider">
+                {tarea.data.tecnica || 'Varios'}
+              </span>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-2 leading-tight">
+              <a href={`/tareas/${tarea.slug}`} class="hover:text-indigo-600 transition">
+                {tarea.data.titulo}
+              </a>
+            </h3>
+            
+            <div class="mt-4 flex flex-wrap gap-2">
+              {tarea.data.etiquetas?.map((etiqueta) => (
+                <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-md">
+                  #{etiqueta}
+                </span>
+              ))}
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+
+  </main>
+</Layout>
+
+<script>
+  const inputBuscador = document.getElementById('buscador') as HTMLInputElement;
+  const tarjetas = document.querySelectorAll('.tarjeta-tarea');
+  const mensajeVacio = document.getElementById('mensaje-vacio');
+
+  if (inputBuscador) {
+    inputBuscador.addEventListener('input', (e) => {
+      const textoBusqueda = (e.target as HTMLInputElement).value.toLowerCase().trim();
+      let resultadosVisibles = 0;
+
+      tarjetas.forEach((tarjeta) => {
+        const elemento = tarjeta as HTMLElement;
+        const titulo = elemento.getAttribute('data-titulo') || '';
+        const etiquetas = elemento.getAttribute('data-etiquetas') || '';
+        
+        // Si el texto de búsqueda está en el título O en las etiquetas, lo mostramos
+        if (titulo.includes(textoBusqueda) || etiquetas.includes(textoBusqueda)) {
+          elemento.style.display = 'flex';
+          resultadosVisibles++;
+        } else {
+          elemento.style.display = 'none';
+        }
+      });
+
+      // Mostrar u ocultar el mensaje de "No hay resultados"
+      if (mensajeVacio) {
+        if (resultadosVisibles === 0) {
+          mensajeVacio.classList.remove('hidden');
+        } else {
+          mensajeVacio.classList.add('hidden');
+        }
+      }
+    });
+  }
+</script>
