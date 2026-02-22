@@ -15,7 +15,11 @@ const { tarea } = Astro.props;
 const { Content } = await tarea.render();
 ---
 
-<Layout title={tarea.data.titulo}>
+<Layout 
+  title={`${tarea.data.titulo} | Recursos de Plástica`}
+  description={tarea.data.descripcion || `Instrucciones y lámina descargable para la tarea de ${tarea.data.titulo}.`}
+  image={tarea.data.imagenPortada.src}
+>
   <article class="container mx-auto p-4 max-w-4xl relative">
     <a href={`/asignaturas/${tarea.data.asignatura}`} class="inline-flex items-center gap-2 text-indigo-600 hover:text-indigo-800 font-medium mb-6 transition">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">

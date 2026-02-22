@@ -4,20 +4,46 @@ import Header from '../components/Header.astro'; // <--- IMPORTANTE
 
 interface Props {
 	title: string;
+	description?: string;
+	image?: string;
 }
 
-const { title } = Astro.props;
+const { 
+	title, 
+	// Ponemos un texto por defecto por si alguna página no tiene descripción
+	description = "Repositorio de recursos y láminas para Educación Plástica, Visual y Audiovisual.", 
+	// Ponemos una imagen por defecto (asegúrate de tener una foto genérica en tu carpeta public)
+	image = "/portada-default.jpg" 
+} = Astro.props;
+
+// Esto genera la URL completa (ej. https://tuweb.com/recursos/lamina-1)
+const canonicalURL = new URL(Astro.url.pathname, Astro.site || Astro.url);
+// Esto asegura que la ruta de la imagen sea absoluta (obligatorio para WhatsApp/Classroom)
+const socialImageURL = new URL(image, Astro.url);
 ---
 
 <!doctype html>
 <html lang="es">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="description" content="Recursos educativos de Dibujo y Plástica" />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
-		<title>{title} | Aula de Dibujo</title>
+		
+		<title>{title}</title>
+		<meta name="description" content={description} />
+
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content={canonicalURL} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:image" content={socialImageURL} />
+
+		<meta property="twitter:card" content="summary_large_image" />
+		<meta property="twitter:url" content={canonicalURL} />
+		<meta property="twitter:title" content={title} />
+		<meta property="twitter:description" content={description} />
+		<meta property="twitter:image" content={socialImageURL} />
 	</head>
 
 	<body class="bg-gray-50 text-slate-800 min-h-screen flex flex-col">

@@ -16,6 +16,7 @@ const tareasCollection = defineCollection({
   type: 'content',
   schema: ({ image }) => z.object({
     titulo: z.string(),
+    descripcion: z.string().optional(),
     asignatura: z.string(), // Debe coincidir con el slug de la asignatura (ej: 'plastica-i')
     fecha: z.date(),
     tecnica: z.string().optional(), // Ej: "Acuarela", "Grafito"
