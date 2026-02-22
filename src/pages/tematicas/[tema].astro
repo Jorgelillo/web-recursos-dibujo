@@ -1,0 +1,47 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+
+export async function getStaticPaths() {
+  const todosLostareas = await getCollection('tareas');
+
+  const temasUnicos = [...new Set(todosLostareas.flatMap((tarea) => tarea.data.tematicas || []))];
+
+  return temasUnicos.map((tema) => {
+    const tareasFiltrados = todosLostareas.filter((tarea) => 
+      tarea.data.tematicas?.includes(tema)
+    );
+    return {
+      params: { tema: tema.toLowerCase().replace(/ /g, '-') },
+      props: { tema, tareas: tareasFiltrados },
+    };
+  });
+}
+
+const { tema } = Astro.params;
+const { tareas } = Astro.props;
+---
+
+<Layout title={`Proyectos sobre: ${tema}`}>
+  <main class="container mx-auto p-4 py-12 max-w-6xl">
+    <div class="mb-10 text-center">
+      <p class="text-orange-500 uppercase tracking-widest text-sm font-bold mb-2">Efeméride / Temática</p>
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-900">{tema}</h1>
+      <p class="mt-4 text-gray-600">Mostrando {tareas.length} proyecto(s)</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {tareas.map((tarea) => (
+        <article class="flex flex-col h-full bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition border border-gray-100">
+          <a href={`/tareas/${tarea.slug}`} class="aspect-video overflow-hidden bg-gray-200 block">
+             <Image src={tarea.data.imagenPortada} alt={tarea.data.titulo} class="w-full h-full object-cover hover:scale-105 transition" width={600} height={400}/>
+          </a>
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-gray-900 mb-2"><a href={`/tareas/${tarea.slug}`}>{tarea.data.titulo}</a></h3>
+          </div>
+        </article>
+      ))}
+    </div>
+  </main>
+</Layout>

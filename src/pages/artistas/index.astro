@@ -1,0 +1,66 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+// Obtenemos todos los tareas
+const tareas = await getCollection('tareas');
+
+// Extraemos todos los artistas, quitamos duplicados y ordenamos alfabéticamente
+const artistasSueltos = tareas.flatMap(tarea => tarea.data.artistas || []);
+const artistasUnicos = [...new Set(artistasSueltos)].sort();
+
+// Función para contar cuántas tareas tiene cada artista
+const contarTareas = (artista:any) => {
+  return tareas.filter(r => r.data.artistas?.includes(artista)).length;
+};
+---
+
+<Layout title="Referentes Artísticos">
+  <main class="container mx-auto p-4 py-12 max-w-5xl min-h-screen">
+    
+    <div class="text-center mb-16">
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Referentes Artísticos</h1>
+      <p class="text-xl text-gray-600">Explora las tareas y proyectos inspirados en grandes figuras del arte.</p>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      {artistasUnicos.map((artista) => {
+        const numTareas = contarTareas(artista);
+        return (
+          <a 
+            href={`/artistas/${artista.toLowerCase().replace(/ /g, '-')}`}
+            class="group bg-white border border-gray-100 rounded-2xl p-6 text-center hover:border-purple-300 hover:shadow-xl transition-all transform hover:-translate-y-1"
+          >
+            <div class="relative w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden bg-purple-100 border-4 border-white shadow-md flex items-center justify-center transition-transform group-hover:scale-105 z-0">
+              <span class="absolute text-4xl font-bold text-purple-400 -z-10">
+                {artista.charAt(0)}
+              </span>
+              <img 
+                src={`/imagenes-artistas/${artista.toLowerCase().replace(/ /g, '-')}.jpg`}
+                alt={`Retrato de ${artista}`}
+                class="w-full h-full object-cover transition-opacity duration-300"
+                onerror="this.style.opacity='0'"
+              />
+            </div>
+            
+            <h2 class="text-lg font-bold text-gray-800 group-hover:text-purple-700 transition-colors">
+              {artista}
+            </h2>
+            
+            <p class="text-sm text-gray-500 mt-2 bg-gray-50 inline-block px-3 py-1 rounded-full">
+              {numTareas} {numTareas === 1 ? 'proyecto' : 'proyectos'}
+            </p>
+          </a>
+        )
+      })}
+    </div>
+
+    {artistasUnicos.length === 0 && (
+      <div class="text-center py-16 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
+        <p class="text-xl text-gray-500">Aún no hay artistas registrados en las tareas.</p>
+        <p class="text-gray-400 mt-2">Añade el campo 'artistas' en tus archivos Markdown.</p>
+      </div>
+    )}
+
+  </main>
+</Layout>

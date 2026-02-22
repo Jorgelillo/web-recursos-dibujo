@@ -1,0 +1,78 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+
+export async function getStaticPaths() {
+  const todosLostareas = await getCollection('tareas');
+
+  // Extraemos los artistas únicos
+  const artistasUnicos = [...new Set(todosLostareas.flatMap((tarea) => tarea.data.artistas || []))];
+
+  // Generamos una ruta por cada artista
+  return artistasUnicos.map((artista) => {
+    const tareasFiltrados = todosLostareas.filter((tarea) => 
+      tarea.data.artistas?.includes(artista)
+    );
+    return {
+      params: { artista: artista.toLowerCase().replace(/ /g, '-') },
+      props: { artista, tareas: tareasFiltrados },
+    };
+  });
+}
+
+const { artista } = Astro.props;
+const { tareas } = Astro.props;
+---
+
+<Layout title={`Proyectos sobre: ${artista}`}>
+  <main class="container mx-auto p-4 py-12 max-w-6xl min-h-screen">
+    
+    <div class="mb-12 text-center">
+      <div class="relative w-32 h-32 mx-auto mb-6 rounded-full overflow-hidden bg-purple-100 border-4 border-white shadow-lg flex items-center justify-center z-0">
+        <span class="absolute text-5xl font-bold text-purple-400 -z-10">
+          {artista.charAt(0)}
+        </span>
+        <img 
+          src={`/imagenes-artistas/${artista.toLowerCase().replace(/ /g, '-')}.jpg`}
+          alt={`Retrato de ${artista}`}
+          class="w-full h-full object-cover transition-opacity duration-300"
+          onerror="this.style.opacity='0'"
+        />
+      </div>
+      <p class="text-purple-600 uppercase tracking-widest text-sm font-bold mb-2">Proyectos basados en</p>
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-900">{artista}</h1>
+      <p class="mt-4 text-gray-600">Mostrando {tareas.length} proyecto(s)</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {tareas.map((tarea) => (
+        <article class="flex flex-col h-full bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition border border-gray-100">
+          <a href={`/tareas/${tarea.slug}`} class="aspect-video overflow-hidden bg-gray-200 block">
+             <Image 
+              src={tarea.data.imagenPortada} 
+              alt={tarea.data.titulo} 
+              class="w-full h-full object-cover hover:scale-105 transition duration-500"
+              width={600}
+              height={400}
+            />
+          </a>
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-gray-900 mb-2">
+              <a href={`/tareas/${tarea.slug}`} class="hover:text-purple-600 transition">
+                {tarea.data.titulo}
+              </a>
+            </h3>
+          </div>
+        </article>
+      ))}
+    </div>
+    
+    <div class="mt-12 text-center">
+      <a href="/artistas" class="text-purple-600 hover:text-purple-800 font-medium inline-flex items-center gap-2">
+        ← Volver a todos los artistas
+      </a>
+    </div>
+
+  </main>
+</Layout>
