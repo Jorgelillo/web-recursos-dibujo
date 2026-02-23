@@ -1,7 +1,7 @@
 ---
 titulo: "Diseña tu Personaje de Halloween"
 descripcion: "Crea tu propio monstruo o personaje terrorífico a cuerpo completo e intégralo en un fondo espeluznante."
-asignatura: "epav-i"
+asignatura: "epva-i"
 fecha: 2026-10-20
 tematicas: ["Halloween"]
 etiquetas: ["Dibujo", "Diseño de Personajes", "Lápices de colores", "Rotuladores", "Composición"]

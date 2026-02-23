@@ -15,16 +15,17 @@ const asignaturasCollection = defineCollection({
 const tareasCollection = defineCollection({
   type: 'content',
   schema: ({ image }) => z.object({
-    titulo: z.string(),
-    descripcion: z.string().optional(),
+    titulo: z.string(), // Título de la tarea
+    descripcion: z.string().optional(), // Pequeña descripción de la tarea
     asignatura: z.string(), // Debe coincidir con el slug de la asignatura (ej: 'plastica-i')
-    fecha: z.date(),
+    fecha: z.date(), // Fecha de subida de la tarea. Se utiliza para mostrar las tareas más recientes.
     tecnica: z.string().optional(), // Ej: "Acuarela", "Grafito"
-    etiquetas: z.array(z.string()).default([]),
-    artistas: z.array(z.string()).default([]),
+    etiquetas: z.array(z.string()).default([]), //
+    artistas: z.array(z.string()).default([]), // Artistas relacionados con el recurso
     tematicas: z.array(z.string()).default([]),
     pdfAdjunto: z.string().optional(),
     imagenPortada: image(), // Astro optimizará esta imagen automáticamente
+    presentacion: z.string().optional(),
     ejemplosAlumnos: z.array(image()).optional(), // Array de imágenes de trabajos finales
   }),
 });
